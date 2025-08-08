@@ -62,6 +62,7 @@ int receiveVideoFiles() {
 }
 
 int receiveOutputDestination() {
+    std::string yOrNCorrectDir = "";
     outputVideoDestination = "";
     std::cout << "> ";
     std::getline(std::cin, outputVideoDestination);
@@ -79,6 +80,20 @@ int receiveOutputDestination() {
                 return -1;
             }
         } else {
+            std::cout << "Confirmation: the modified video(s) should be placed in the following directory: ";
+            std::cout << outputVideoPath;
+            std::cout << "\nIs this correct? (y / n) > ";
+            std::getline(std::cin, yOrNCorrectDir);
+            yOrNCorrectDir = tolower(yOrNCorrectDir[0]);
+            if (yOrNCorrectDir == "n") {
+                std::cout << "\nSorry about that. Insert a valid path.\n\n";
+                return -1;
+            } else if (yOrNCorrectDir == "y") {
+                std::cout << "\nGreat!\n\n";
+                return 0;
+            } else {
+                std::cout << "\nNot a valid response. Assuming you meant 'n', let's try that again.\n\n";
+            }
             return 0;
         }
     }
