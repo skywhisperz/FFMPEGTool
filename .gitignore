@@ -1,4 +1,4 @@
-# Ignoring the vscode folder
+# Ignoring the vscode folder and some other shenanigans
 .vscode
 src/app.exe
 src/app.ilk
