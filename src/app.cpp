@@ -22,6 +22,10 @@ int recieveVideoFiles() {
         if (modifyThisVideoTemp == "finish") {
             break;
         } else {
+            fs::path temporaryPathToAddVideo(modifyThisVideoTemp);
+            if (!fs::is_regular_file(temporaryPathToAddVideo)) {
+                std::cout << "\nNot a file or file doesn't exist, please drag and drop a valid file\n\n";
+            }
             modifyVideos.push_back(modifyThisVideoTemp);
             modifyThisVideoTemp = "";
         }
@@ -40,7 +44,7 @@ int recieveVideoFiles() {
         std::cout << "\nSorry about that. Let's try that again.\n\n";
         return -1;
     } else if (isCorrectVideos == "y") {
-        std::cout << "\nGreat!\n\n";
+        std::cout << "\nGreat! Let's begin.\n\n";
     } else {
         std::cout << "\nNot a valid response. Assuming you meant 'n', let's try that again.\n\n";
     }
