@@ -151,5 +151,6 @@ int main() {
             break;
         }
     }
+    std::cout << "\n\nDone. You can now edit each video individually, or edit the properties of all of them by typing 'all'.\nType 'quit' to DISCARD all modifications and exit the program.\nType 'begin' to begin modifying the video(s) with the options you selected.\nSee more options on the screen.";
     return 0;
 }
