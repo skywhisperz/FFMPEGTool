@@ -1,0 +1,7 @@
+# Ignoring the vscode folder
+.vscode
+src/app.exe
+src/app.ilk
+src/app.obj
+src/app.pdb
+src/vc140.pdb
