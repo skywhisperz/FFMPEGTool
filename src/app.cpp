@@ -11,7 +11,7 @@ std::vector<std::string> modifyVideos;
 std::string outputVideoDestination;
 std::string modifyThisVideoTemp;
 
-int recieveVideoFiles() {
+int receiveVideoFiles() {
     modifyVideos = {};
     std::string isCorrectVideos = "";
     int whichVideoIsFucked = 0;
@@ -53,7 +53,7 @@ int recieveVideoFiles() {
         std::cout << "\nSorry about that. Let's try that again.\n\n";
         return -1;
     } else if (isCorrectVideos == "y") {
-        std::cout << "\nGreat! Let's begin.\n\n";
+        std::cout << "\nGreat!\n\n";
         return 0;
     } else {
         std::cout << "\nNot a valid response. Assuming you meant 'n', let's try that again.\n\n";
@@ -61,13 +61,45 @@ int recieveVideoFiles() {
     }
 }
 
+int receiveOutputDestination() {
+    outputVideoDestination = "";
+    std::cout << "> ";
+    std::getline(std::cin, outputVideoDestination);
+    fs::path outputVideoPath(outputVideoDestination);
+    if (outputVideoDestination.empty()) {
+        std::cout << "Please insert a valid path. If the path doesn't exist, it will be created in the exact absolute path you typed as a folder.\n\n";
+        return -1;
+    } else {
+        if (!fs::is_directory(outputVideoPath)) {
+            try {
+                fs::create_directory(outputVideoPath);
+                return 0;
+            } catch (int e) {
+                std::cout << "Directory doesn't exist, and the program could not create it. Please try another path that exists and you have permission to write to.\n\n";
+                return -1;
+            }
+        } else {
+            return 0;
+        }
+    }
+}
+
 int main() {
-    int recieveVideoFilesOutput = 0;
+    int receiveVideoFilesOutput = 0;
+    int receiveOutputDestinationOutput = 0;
     std::cout << "Welcome to FFMPEG Tool\n==================================================\nVersion " << appVersion << "\n\n";
     std::cout << "Drag and drop a video file (type 'finish' to stop, type 'quit' to exit)\n\n";
     for (int i = 0; i != 999; i++) {
-        recieveVideoFilesOutput = recieveVideoFiles();
-        if (recieveVideoFilesOutput == 0) {
+        receiveVideoFilesOutput = receiveVideoFiles();
+        if (receiveVideoFilesOutput == 0) {
+            break;
+        }
+    }
+    std::cout << "Now, you will have to choose where we should place the modified video files.\n";
+    std::cout << "Do not include the filename in your selection. You will be able to choose the output filename later.\n\n";
+    for (int i = 0; i != 999; i++) {
+        receiveOutputDestinationOutput = receiveOutputDestination();
+        if (receiveOutputDestinationOutput == 0) {
             break;
         }
     }
