@@ -20,6 +20,10 @@ int recieveVideoFiles() {
         modifyThisVideoTemp = "";
         std::getline(std::cin, modifyThisVideoTemp);
         if (modifyThisVideoTemp == "finish") {
+            if (modifyVideos.empty()) {
+                std::cout << "Please insert at least 1 video or type 'quit' to exit the program.\n\n";
+                return -1;
+            }
             break;
         } else if (modifyThisVideoTemp == "quit") {
             std::cout << "Exiting the program...";
