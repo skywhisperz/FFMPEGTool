@@ -25,10 +25,11 @@ int recieveVideoFiles() {
             fs::path temporaryPathToAddVideo(modifyThisVideoTemp);
             if (!fs::is_regular_file(temporaryPathToAddVideo)) {
                 std::cout << "\nNot a file or file doesn't exist, please drag and drop a valid file\n\n";
-                i = i - 1;
+                i -= 1;
+            } else {
+                modifyVideos.push_back(modifyThisVideoTemp);
+                modifyThisVideoTemp = "";
             }
-            modifyVideos.push_back(modifyThisVideoTemp);
-            modifyThisVideoTemp = "";
         }
     }
 
