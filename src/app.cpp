@@ -21,6 +21,9 @@ int recieveVideoFiles() {
         std::getline(std::cin, modifyThisVideoTemp);
         if (modifyThisVideoTemp == "finish") {
             break;
+        } else if (modifyThisVideoTemp == "quit") {
+            std::cout << "Exiting the program...";
+            exit(0);
         } else {
             fs::path temporaryPathToAddVideo(modifyThisVideoTemp);
             if (!fs::is_regular_file(temporaryPathToAddVideo)) {
@@ -47,20 +50,21 @@ int recieveVideoFiles() {
         return -1;
     } else if (isCorrectVideos == "y") {
         std::cout << "\nGreat! Let's begin.\n\n";
+        return 0;
     } else {
         std::cout << "\nNot a valid response. Assuming you meant 'n', let's try that again.\n\n";
+        return -1;
     }
-    return 0;
 }
 
 int main() {
     int recieveVideoFilesOutput = 0;
     std::cout << "Welcome to FFMPEG Tool\n==================================================\nVersion " << appVersion << "\n\n";
-    std::cout << "Drag and drop a video file (type 'finish' to stop)\n\n";
+    std::cout << "Drag and drop a video file (type 'finish' to stop, type 'quit' to exit)\n\n";
     for (int i = 0; i != 999; i++) {
         recieveVideoFilesOutput = recieveVideoFiles();
-        if (recieveVideoFilesOutput == -1) {
-            // Retry
+        if (recieveVideoFilesOutput == 0) {
+            break;
         }
     }
     return 0;
