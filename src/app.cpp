@@ -12,6 +12,7 @@ std::string outputVideoDestination;
 std::string modifyThisVideoTemp;
 
 int recieveVideoFiles() {
+    modifyVideos = {};
     std::string isCorrectVideos = "";
     int whichVideoIsFucked = 0;
     for (int i = 1; i != 11; i++) {
@@ -36,10 +37,12 @@ int recieveVideoFiles() {
     std::getline(std::cin, isCorrectVideos);
     isCorrectVideos = tolower(isCorrectVideos[0]);
     if (isCorrectVideos == "n") {
-        std::cout << "\nLet's try that again.\n\n";
+        std::cout << "\nSorry about that. Let's try that again.\n\n";
         return -1;
     } else if (isCorrectVideos == "y") {
         std::cout << "\nGreat!\n\n";
+    } else {
+        std::cout << "\nNot a valid response. Assuming you meant 'n', let's try that again.\n\n";
     }
     return 0;
 }
