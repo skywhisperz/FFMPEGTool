@@ -9,6 +9,7 @@ namespace fs = std::filesystem;
 std::string appVersion = "1.0";
 std::vector<std::string> modifyVideos;
 std::string outputVideoDestination;
+std::vector<std::string> outputVideoFilenames;
 std::string modifyThisVideoTemp;
 
 int receiveVideoFiles() {
@@ -99,9 +100,33 @@ int receiveOutputDestination() {
     }
 }
 
+int receiveOutputFileName() {
+    outputVideoFilenames = {};
+    std::string outputVideoTemporaryFname;
+    char dot = '.';
+    for (int eachVideo = 1; eachVideo != modifyVideos.size() + 1; eachVideo++) {
+        outputVideoTemporaryFname = "";
+        std::cout << "Video " << eachVideo << "/" << modifyVideos.size() << " > ";
+        std::getline(std::cin, outputVideoTemporaryFname);
+        if (outputVideoTemporaryFname.empty()) {
+            std::cout << "\nFilename cannot be empty.\n\n";
+            eachVideo -= 1;
+        } else {
+            if (outputVideoTemporaryFname.find(".") == -1 || outputVideoTemporaryFname.back() == dot) {
+                std::cout << "Could not detect any valid file extensions. Please try again.\n";
+                eachVideo -= 1;
+            } else {
+                outputVideoFilenames.push_back(outputVideoTemporaryFname);
+            }
+        }
+    }
+    return 0;
+}
+
 int main() {
     int receiveVideoFilesOutput = 0;
     int receiveOutputDestinationOutput = 0;
+    int receiveOutputFilenameOutput = 0;
     std::cout << "Welcome to FFMPEG Tool\n==================================================\nVersion " << appVersion << "\n\n";
     std::cout << "Drag and drop a video file (type 'finish' to stop, type 'quit' to exit)\n\n";
     for (int i = 0; i != 999; i++) {
@@ -114,6 +139,14 @@ int main() {
     std::cout << "Do not include the filename in your selection. You will be able to choose the output filename later.\n\n";
     for (int i = 0; i != 999; i++) {
         receiveOutputDestinationOutput = receiveOutputDestination();
+        if (receiveOutputDestinationOutput == 0) {
+            break;
+        }
+    }
+    std::cout << "Finally, select the filename for each video.\n";
+    std::cout << "Include the file extension you want the video to be in (for example, .mp4, .mov, .mkv, .avi, etc.)\n\n";
+    for (int i = 0; i != 999; i++) {
+        receiveOutputFilenameOutput = receiveOutputFileName();
         if (receiveOutputDestinationOutput == 0) {
             break;
         }
