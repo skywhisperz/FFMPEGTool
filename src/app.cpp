@@ -20,6 +20,11 @@ int receiveVideoFiles() {
         std::cout << "Video " << i << "/10 > ";
         modifyThisVideoTemp = "";
         std::getline(std::cin, modifyThisVideoTemp);
+        if (modifyThisVideoTemp.find("\"") == -1) {
+            std::string modifyThisVideoTempFirstRemoved = modifyThisVideoTemp.erase(modifyThisVideoTemp.front());
+            std::string modifyThisVideoTempLastRemoved = modifyThisVideoTempFirstRemoved.erase(modifyThisVideoTempFirstRemoved.back());
+            modifyThisVideoTemp = modifyThisVideoTempLastRemoved;
+        }
         if (modifyThisVideoTemp == "finish") {
             if (modifyVideos.empty()) {
                 std::cout << "Please insert at least 1 video or type 'quit' to exit the program.\n\n";
@@ -123,10 +128,34 @@ int receiveOutputFileName() {
     return 0;
 }
 
+int programIntelligentCLI() {
+    std::string mYC = "";
+    std::string vbitr = "default";
+    std::string venco = "default";
+    std::string abitr = "default";
+    std::string aenco = "default";
+    std::string crfcn = "default";
+    std::string framr = "default";
+    for (int i = 0; i != 1000; i++) {
+        std::cout << "\n";
+    }
+    std::cout << "\n\nType 'quit' to exit the program. Type 'begin' to start modifying all the videos. You can use the following modifications:\n\n(vb) Video bitrate\n(ve) Video encoder\n(ab) Audio bitrate\n(ae) Audio encoder\n(crf) CRF constant\n(fps) Framerate\n\n";
+    std::getline(std::cin, mYC);
+    if (mYC == "quit") {
+        std::cout << "Discarding all changes and exiting the program...";
+        exit(0);
+    } else if (mYC == "begin") {
+        std::cout << "All " << modifyVideos.size() << " videos will be modified with the following parameters:\n";
+        std::cout << "Video birate: " << vbitr << "\nVideo encoder: " << venco << "\nAudio bitrate: " << abitr << "\nAudio encoder: " << aenco << "\nCRF constant: " << crfcn << "\nFramerate: " << framr;
+    }
+    return 0;
+}
+
 int main() {
     int receiveVideoFilesOutput = 0;
     int receiveOutputDestinationOutput = 0;
     int receiveOutputFilenameOutput = 0;
+    int programIntelliCLIOutput = 0;
     std::cout << "Welcome to FFMPEG Tool\n==================================================\nVersion " << appVersion << "\n\n";
     std::cout << "Drag and drop a video file (type 'finish' to stop, type 'quit' to exit)\n\n";
     for (int i = 0; i != 999; i++) {
@@ -151,6 +180,11 @@ int main() {
             break;
         }
     }
-    std::cout << "\n\nDone. You can now edit each video individually, or edit the properties of all of them by typing 'all'.\nType 'quit' to DISCARD all modifications and exit the program.\nType 'begin' to begin modifying the video(s) with the options you selected.\nSee more options on the screen.";
+    for (int i = 0; i != 999; i++) {
+        programIntelliCLIOutput = programIntelligentCLI();
+        if (programIntelliCLIOutput == 0) {
+            break;
+        }
+    }
     return 0;
 }
